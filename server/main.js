@@ -1,8 +1,8 @@
 import { Meteor } from "meteor/meteor";
+import { check } from "meteor/check";
 //collections imports
 import "../imports/api/tasks.js";
-
-import { check } from "meteor/check";
+import "../imports/api/candidates.js";
 
 Meteor.methods({
   getList: () => {

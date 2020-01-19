@@ -3,12 +3,18 @@ import { withTracker } from "meteor/react-meteor-data";
 import { withHistory, Link } from "react-router-dom";
 import ReactDOM from "react-dom";
 import { Meteor } from "meteor/meteor";
+//library
 import styled from "styled-components";
 import Form from "react-jsonschema-form";
+//layout
 import BaseLayout from "./layout/BaseLayout.js";
+//components
 import Popup from "../component/Popup.js";
+import Cards from "../component/Cards.js";
+//collections
+import { Candidates } from "../../api/candidates.js";
 
-class AdminJudge extends Component {
+class AdminCandidate extends Component {
   constructor(props) {
     super(props);
 
@@ -56,7 +62,7 @@ class AdminJudge extends Component {
   }
 
   renderJudge() {
-    return this.props.judges.map(data => {
+    return this.props.candidates.map(data => {
       return (
         <tr className="border-b hover:bg-orange-100 bg-gray-100" key={data._id}>
           <td className="p-3 px-5">
@@ -115,7 +121,7 @@ class AdminJudge extends Component {
     });
   }
 
-  addJudgeSubmit(formData) {
+  Submit(formData) {
     let data = formData.formData;
     console.log("formData", data);
 
@@ -141,18 +147,33 @@ class AdminJudge extends Component {
   }
 
   render() {
-    const addJudgeFormSchema = {
+    const FormSchema = {
       type: "object",
       required: ["username", "password", "gender"],
       properties: {
-        username: {
-          type: "string",
-          title: "Username"
+        candidateNumber: {
+          type: "number",
+          title: "Candidate Number"
         },
-        password: {
+        name: {
           type: "string",
-          title: "Password",
-          minLength: 3
+          title: "full name"
+        },
+        age: {
+          type: "number",
+          title: "Age"
+        },
+        motto: {
+          type: "string",
+          title: "Motto"
+        },
+        department: {
+          type: "string",
+          title: "Department"
+        },
+        teamName: {
+          type: "string",
+          title: "Team Name"
         },
         gender: {
           title: "Gender",
@@ -173,7 +194,7 @@ class AdminJudge extends Component {
       }
     };
 
-    const addJudgeUISchema = {
+    const UISchema = {
       password: {
         "ui:widget": "password",
         "ui:options": {
@@ -187,9 +208,9 @@ class AdminJudge extends Component {
         {this.state.PopUp ? (
           <Popup title="Add Judge" action={this.ShowPopup}>
             <Form
-              schema={addJudgeFormSchema}
-              uiSchema={addJudgeUISchema}
-              onSubmit={this.addJudgeSubmit.bind(this)}
+              schema={FormSchema}
+              uiSchema={UISchema}
+              onSubmit={this.Submit.bind(this)}
             >
               <button className="border-2 border-blue-500 hover:border-red-500 p-3 min-w-full">
                 Submit
@@ -201,7 +222,9 @@ class AdminJudge extends Component {
         )}
         <div className="text-gray-900 bg-gray-200">
           <div className="p-4 flex justify-between">
-            <h1 className="text-3xl">Judge({this.props.judgeCount})</h1>
+            <h1 className="text-3xl">
+              Candidates({this.props.candidatesCount})
+            </h1>
             <button
               type="button"
               className="mr-3 text-sm bg-green-500 hover:bg-green-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
@@ -209,26 +232,14 @@ class AdminJudge extends Component {
                 this.setState({ PopUp: true });
               }}
             >
-              Add Judge
+              Add Candidate
             </button>
           </div>
           <div className="px-3 py-4 flex justify-center">
-            <table className="w-full text-md bg-white shadow-md rounded mb-4">
-              <tbody>
-                <tr className="border-b">
-                  <th className="text-left p-3 px-5">ID</th>
-                  <th className="text-left p-3 px-5">USERNAME</th>
-                  <th className="text-left p-3 px-5">GENDER</th>
-                  {this.state.changePassword != "test" ? (
-                    <th className="text-left p-3 px-5">NEW PASSWORD</th>
-                  ) : (
-                    <th></th>
-                  )}
-                  <th></th>
-                </tr>
-                {this.renderJudge()}
-              </tbody>
-            </table>
+            <Cards />
+            <Cards />
+            <Cards />
+            <Cards />
           </div>
         </div>
       </BaseLayout>
@@ -238,7 +249,7 @@ class AdminJudge extends Component {
 
 export default withTracker(() => {
   return {
-    judges: Meteor.users.find({}, { sort: { createdAt: -1 } }).fetch(),
-    judgeCount: Meteor.users.find({}).count()
+    candidates: Candidates.find({}, { sort: { createdAt: -1 } }).fetch(),
+    candidatesCount: Candidates.find({}).count()
   };
-})(AdminJudge);
+})(AdminCandidate);

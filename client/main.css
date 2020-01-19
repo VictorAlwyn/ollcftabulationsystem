@@ -11,7 +11,7 @@ html {
 input,
 select {
   width: 25vw;
-  height: 5vh;
+  height: 50px;
   padding: 10px;
   border-radius: 10px;
 }

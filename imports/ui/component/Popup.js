@@ -27,46 +27,40 @@ const CenterDiv = styled.div`
   -ms-transform: translate(-50%, -50%);
 `;
 
-export default class Popup extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <Overlay>
-        <CenterDiv>
-          <div className="bg-white rounded min-w-full border shadow-lg min-h-full">
-            <div className="rounded-t bg-teal-500">
-              <div className="relative py-3 px-2 flex">
-                <span className="font-semibold text-white md:text-base text-sm">
-                  {this.props.title}
-                </span>
-                <div
-                  className="absolute right-0 top-0 -mr-2 -mt-2 border cursor-pointer shadow-lg bg-white z-10 p-1 rounded-full p-2"
-                  onClick={this.props.action}
-                >
-                  <img
-                    src="https://image.flaticon.com/icons/svg/151/151882.svg"
-                    className="w-2 h-2"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="bg-gray-200 md:text-base text-sm border-b p-2">
-              {this.props.children}
-            </div>
-            <div className="p-2 flex justify-end rounded-b">
-              <button
-                className="focus:outline-none py-1 px-2 md:py-2 md:px-3 w-24 bg-red-700 hover:bg-red-600 text-white rounded"
-                onClick={this.props.action}
-              >
-                Cancel
-              </button>
+const Popup = props => (
+  <Overlay>
+    <CenterDiv>
+      <div className="bg-white rounded min-w-full border shadow-lg min-h-full">
+        <div className="rounded-t bg-teal-500">
+          <div className="relative py-3 px-2 flex">
+            <span className="font-semibold text-white md:text-base text-sm">
+              {props.title}
+            </span>
+            <div
+              className="absolute right-0 top-0 -mr-2 -mt-2 border cursor-pointer shadow-lg bg-white z-10 p-1 rounded-full p-2"
+              onClick={props.action}
+            >
+              <img
+                src="https://image.flaticon.com/icons/svg/151/151882.svg"
+                className="w-2 h-2"
+              />
             </div>
           </div>
-        </CenterDiv>
-      </Overlay>
-    );
-  }
-}
+        </div>
+        <div className="bg-gray-200 md:text-base text-sm border-b p-2">
+          {props.children}
+        </div>
+        <div className="p-2 flex justify-end rounded-b">
+          <button
+            className="focus:outline-none py-1 px-2 md:py-2 md:px-3 w-24 bg-red-700 hover:bg-red-600 text-white rounded"
+            onClick={props.action}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </CenterDiv>
+  </Overlay>
+);
+
+export default Popup;
