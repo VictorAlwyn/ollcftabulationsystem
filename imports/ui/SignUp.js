@@ -7,48 +7,41 @@ import styled from "styled-components";
 import BaseLayout from "./layout/BaseLayout.js";
 import Form from "react-jsonschema-form";
 
-export default class Login extends Component {
+export default class SignUp extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      pageSettingsFormSchema: undefined
+      pageSettingsFormSchema: undefined,
+      error: undefined
     };
-  }
-
-  componentDidMount() {
-    console.log("componentDidMount");
-  }
-
-  componentWillMount() {
-    console.log("componentWillMount");
-    if (Meteor.userId()) {
-      this.props.history.push("/admin/dashboard");
-    }
   }
 
   pageSettingsFormSubmit(formData) {
     let data = formData.formData;
     console.log("formData", data);
-    console.log("Meteor.userId():", Meteor.user());
 
-    Meteor.loginWithPassword(data.username, data.password, err => {
-      if (err) {
-        this.setState({
-          error: err.reason
-        });
-      } else {
-        this.props.history.push("/admin/dashboard");
-        // console.log("login success: ", Meteor.userId());
+    Meteor.call(
+      "createUser",
+      {
+        username: data.username,
+        password: data.password,
+        profile: { position: "judge", gender: data.gender },
+        login: false
+      },
+      (res, err) => {
+        console.log(res, err);
       }
-    });
+    );
+
+    console.log("Meteor.userId()", Meteor.userId());
   }
 
   render() {
     const pageSettingsFormSchema = {
-      title: "Login",
+      title: "SignUp",
       type: "object",
-      required: ["username", "password"],
+      required: ["username", "password", "gender"],
       properties: {
         username: {
           type: "string",
@@ -58,16 +51,29 @@ export default class Login extends Component {
           type: "string",
           title: "Password",
           minLength: 3
+        },
+        gender: {
+          title: "Gender",
+          type: "string",
+          anyOf: [
+            {
+              type: "string",
+              enum: ["Male"],
+              title: "Male"
+            },
+            {
+              type: "string",
+              enum: ["Female"],
+              title: "Female"
+            }
+          ]
         }
       }
     };
 
     const pageSettingsUISchema = {
       password: {
-        "ui:widget": "password",
-        "ui:options": {
-          classNames: "border-gray-400 focus:border-blue-500"
-        }
+        "ui:widget": "password"
       }
     };
     return (
@@ -77,9 +83,11 @@ export default class Login extends Component {
           uiSchema={pageSettingsUISchema}
           onSubmit={this.pageSettingsFormSubmit.bind(this)}
         >
-          <button className="border-2 border-blue-500 hover:border-red-500 ...">
-            Login
-          </button>
+          <div>
+            <button>
+              <span>Submit</span>
+            </button>
+          </div>
         </Form>
       </div>
     );
