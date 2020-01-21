@@ -9,6 +9,7 @@ import SignUp from "../ui/SignUp.js";
 import AdminDashboard from "../ui/admin/Dashboard.js";
 import AdminJudge from "../ui/admin/Judge.js";
 import AdminCandidate from "../ui/admin/Candidate.js";
+import AdminTeam from "../ui/admin/Team.js";
 
 //layout
 import BaseLayout from "../ui/layout/BaseLayout.js";
@@ -21,6 +22,7 @@ export const renderRoutes = () => (
       <Route exact={true} path="/admin/dashboard" component={AdminDashboard} />
       <Route exact={true} path="/admin/judge" component={AdminJudge} />
       <Route exact={true} path="/admin/candidate" component={AdminCandidate} />
+      <Route exact={true} path="/admin/team" component={AdminTeam} />
       <Route exact={true} path="/login" component={Login} />
       <Route exact={true} path="/SignUp" component={SignUp} />
     </Switch>

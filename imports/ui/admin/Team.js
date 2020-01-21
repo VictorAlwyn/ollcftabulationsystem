@@ -15,7 +15,7 @@ import DropDown from "../component/DropDown.js";
 //collections
 import { Candidates } from "../../api/candidates.js";
 
-class AdminCandidate extends Component {
+class AdminTeam extends Component {
   constructor(props) {
     super(props);
 
@@ -149,64 +149,44 @@ class AdminCandidate extends Component {
 
   render() {
     const FormSchema = {
-      type: "object",
-      required: ["username", "password", "gender"],
-      properties: {
-        candidateNumber: {
-          type: "number",
-          title: "Candidate Number"
-        },
-        name: {
-          type: "string",
-          title: "full name"
-        },
-        age: {
-          type: "number",
-          title: "Age"
-        },
-        motto: {
-          type: "string",
-          title: "Motto"
-        },
-        department: {
-          type: "string",
-          title: "Department"
-        },
-        teamName: {
-          type: "string",
-          title: "Team Name"
-        },
-        gender: {
-          title: "Gender",
-          type: "string",
-          anyOf: [
-            {
+      definitions: {
+        Thing: {
+          type: "object",
+          properties: {
+            name: {
               type: "string",
-              enum: ["Male"],
-              title: "Male"
-            },
-            {
-              type: "string",
-              enum: ["Female"],
-              title: "Female"
+              default: "Default name"
             }
-          ]
+          }
+        }
+      },
+      type: "object",
+      properties: {
+        listOfStrings: {
+          type: "array",
+          title: "A list of strings",
+          items: {
+            type: "string",
+            default: "bazinga"
+          }
+        },
+        defaultsAndMinItems: {
+          type: "array",
+          title: "List and item level defaults",
+          minItems: 2,
+          default: ["carp", "trout", "bream"],
+          items: {
+            type: "string",
+            default: "unidentified"
+          }
         }
       }
     };
 
     const UISchema = {
-      password: {
-        "ui:widget": "password",
-        "ui:options": {
-          classNames: "border-gray-400 focus:border-blue-500"
-        }
-      },
-      department: {
-        "ui:widget": DropDown,
-        "ui:options": {
-          singleSelect: true,
-          multipleSelect: false
+      listOfStrings: {
+        items: {
+          "ui:emptyValue": ""
         }
       }
     };
@@ -260,4 +240,4 @@ export default withTracker(() => {
     candidates: Candidates.find({}, { sort: { createdAt: -1 } }).fetch(),
     candidatesCount: Candidates.find({}).count()
   };
-})(AdminCandidate);
+})(AdminTeam);

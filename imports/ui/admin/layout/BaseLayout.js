@@ -55,6 +55,14 @@ export default class BaseLayout extends Component {
                   Candidate
                 </Link>
               </li>
+              <li>
+                <Link
+                  to="/admin/team"
+                  className="block p-4 text-grey-darker font-bold border-grey-lighter hover:border-purple-light hover:bg-grey-lighter border-r-4"
+                >
+                  Team
+                </Link>
+              </li>
             </ul>
           </div>
         </LeftContent>

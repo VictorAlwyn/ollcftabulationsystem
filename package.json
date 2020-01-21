@@ -10,6 +10,7 @@
   "dependencies": {
     "@babel/runtime": "^7.7.6",
     "classnames": "^2.2.6",
+    "glyphicons": "^0.2.0",
     "jquery": "^3.4.1",
     "meteor-node-stubs": "^1.0.0",
     "react": "^16.12.0",
